@@ -9,7 +9,7 @@ import org.mapstruct.Mapping;
 
 import java.util.List;
 
-@Mapper(componentModel = "spring")
+@Mapper(componentModel = "spring", uses = { PostMapper.class, CommentMapper.class, LikeMapper.class})
 public interface UserMapper {
 
         @Mapping(source = "posts", target = "postsDto")

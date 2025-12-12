@@ -7,7 +7,9 @@ import kz.seisen.blog.models.Post;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
-@Mapper(componentModel = "spring")
+import java.util.List;
+
+@Mapper(componentModel = "spring", uses = {CommentMapper.class, LikeMapper.class, CategoryMapper.class, UserMapper.class})
 public interface PostMapper {
 
     @Mapping(source = "user", target = "userDto")
@@ -28,5 +30,7 @@ public interface PostMapper {
     @Mapping(source = "likesDto", target = "likes")
     @Mapping(source = "categoriesDto", target = "categories")
     Post toEntity(PostDto postDto);
+
+    List<PostDto> toDtoList(List<Post> entities);
 
 }
