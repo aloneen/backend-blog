@@ -21,7 +21,6 @@ public class Post {
     private String title;
     private String text;
 
-
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;
@@ -32,10 +31,11 @@ public class Post {
     @OneToMany(mappedBy = "post", cascade = CascadeType.ALL)
     private List<Like> likes;
 
-
     @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(
+        name = "post_categories",
+        joinColumns = @JoinColumn(name = "post_id"),
+        inverseJoinColumns = @JoinColumn(name = "category_id")
+    )
     private List<Category> categories;
-
-
-
 }

@@ -1,12 +1,8 @@
 package kz.seisen.blog.services.impl;
 
-
 import kz.seisen.blog.dto.CategoryDto;
-import kz.seisen.blog.dto.CommentDto;
 import kz.seisen.blog.mapper.CategoryMapper;
-import kz.seisen.blog.mapper.CommentMapper;
 import kz.seisen.blog.repositories.CategoryRepository;
-import kz.seisen.blog.repositories.CommentRepository;
 import kz.seisen.blog.services.CategoryService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

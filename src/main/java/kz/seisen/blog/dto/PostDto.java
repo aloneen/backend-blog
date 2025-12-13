@@ -13,9 +13,10 @@ public class PostDto {
     private Long id;
     private String title;
     private String text;
-    private UserDto userDto;
-    private List<CommentDto> commentsDto;
-    private List<CategoryDto> categoriesDto;
-    private List<LikeDto> likesDto;
+    private Long userId;
+    private String username;
+    private List<CommentDto> comments;
+    private List<CategoryDto> categories;
+    private List<LikeDto> likes;
 }
 

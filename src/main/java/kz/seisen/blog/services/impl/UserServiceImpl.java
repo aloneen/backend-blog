@@ -1,14 +1,9 @@
 package kz.seisen.blog.services.impl;
 
-
-import kz.seisen.blog.dto.PostCreateDto;
-import kz.seisen.blog.dto.PostDto;
 import kz.seisen.blog.dto.UserCreateDto;
 import kz.seisen.blog.dto.UserDto;
-import kz.seisen.blog.mapper.PostMapper;
 import kz.seisen.blog.mapper.UserMapper;
 import kz.seisen.blog.models.User;
-import kz.seisen.blog.repositories.PostRepository;
 import kz.seisen.blog.repositories.UserRepository;
 import kz.seisen.blog.services.UserService;
 import lombok.RequiredArgsConstructor;

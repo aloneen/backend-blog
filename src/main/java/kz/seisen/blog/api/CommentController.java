@@ -1,10 +1,7 @@
 package kz.seisen.blog.api;
 
-
 import kz.seisen.blog.dto.CommentDto;
-import kz.seisen.blog.dto.PostCreateDto;
 import kz.seisen.blog.services.CommentService;
-import kz.seisen.blog.services.PostService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

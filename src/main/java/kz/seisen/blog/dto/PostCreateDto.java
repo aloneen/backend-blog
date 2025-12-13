@@ -12,6 +12,6 @@ import java.util.List;
 public class PostCreateDto {
     private String title;
     private String text;
-    private List<CategoryDto> categoriesDto;
-    private UserDto userDto;
+    private Long userId;
+    private List<Long> categoryIds;
 }
