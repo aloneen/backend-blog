@@ -9,11 +9,13 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/users")
+@RequestMapping("/auth")
 public class UserController {
 
 
     private final UserService service;
+
+
 
 
     @GetMapping
@@ -34,7 +36,7 @@ public class UserController {
         }
     }
 
-    @PostMapping
+    @PostMapping("/register")
     public ResponseEntity<?> create(@RequestBody UserCreateDto dto) {
         try {
             return new ResponseEntity<>(service.create(dto), HttpStatus.OK);
