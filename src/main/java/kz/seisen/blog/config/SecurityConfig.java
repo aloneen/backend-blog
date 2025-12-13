@@ -19,7 +19,7 @@ import org.springframework.security.web.SecurityFilterChain;
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class SecurityConfig {
     @Bean
-    public UserServiceImpl userService(){
+    public UserServiceImpl userServiceImpl(){
         return new UserServiceImpl();
     }
     @Bean
@@ -32,7 +32,7 @@ public class SecurityConfig {
                 http.getSharedObject(AuthenticationManagerBuilder.class);
 
         authenticationManagerBuilder
-                .userDetailsService(userService())
+                .userDetailsService(userServiceImpl())
                 .passwordEncoder(passwordEncoder());
 
         http.authorizeHttpRequests(authorizeHttpRequests -> authorizeHttpRequests

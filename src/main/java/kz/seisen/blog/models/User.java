@@ -26,6 +26,11 @@ public class User implements UserDetails {
 
 
     @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(
+        name = "users_permissions",
+        joinColumns = @JoinColumn(name = "user_model_id"),
+        inverseJoinColumns = @JoinColumn(name = "permissions_id")
+    )
     private List<Permission> permissions;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
