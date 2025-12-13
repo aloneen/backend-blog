@@ -3,23 +3,36 @@ package kz.seisen.blog.services.impl;
 import kz.seisen.blog.dto.UserCreateDto;
 import kz.seisen.blog.dto.UserDto;
 import kz.seisen.blog.mapper.UserMapper;
+import kz.seisen.blog.models.Permission;
 import kz.seisen.blog.models.User;
+import kz.seisen.blog.repositories.PermissionRepository;
 import kz.seisen.blog.repositories.UserRepository;
 import kz.seisen.blog.services.UserService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Objects;
 
 @Service
-@RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
 
 
-    private final UserRepository userRepository;
+    @Autowired
+    private UserRepository userRepository;
 
-    private final UserMapper userMapper;
+    @Autowired
+    private UserMapper userMapper;
+
+    @Autowired
+    private PermissionRepository permissionRepository;
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     @Override
     public List<UserDto> getAll() {
@@ -34,8 +47,22 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserDto create(UserCreateDto userCreateDto) {
         if (Objects.isNull(userCreateDto)) return null;
+        User responseUser = new User();
 
-        return userMapper.toDto(userRepository.save(userMapper.toEntity(userCreateDto)));
+        User check = userRepository.findByEmail(userCreateDto.getEmail());
+        if (check == null){
+            User newUser = new User();
+            newUser.setUsername(userCreateDto.getUsername());
+            newUser.setEmail(userCreateDto.getEmail());
+            newUser.setPassword(passwordEncoder.encode(userCreateDto.getPassword()));
+            List<Permission> permissions = List.of(permissionRepository.findByName("ROLE_USER"));
+
+            newUser.setPermissions(permissions);
+            responseUser = userRepository.save(newUser);
+        }
+
+
+        return userMapper.toDto(responseUser);
     }
 
     @Override
@@ -69,4 +96,14 @@ public class UserServiceImpl implements UserService {
 
     }
 
+    @Override
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        User user = userRepository.findByEmail(username);
+
+        if (Objects.nonNull(user)) {
+            return user;
+        }
+
+        throw new UsernameNotFoundException("User not found");
+    }
 }
