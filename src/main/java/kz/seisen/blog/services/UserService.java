@@ -1,7 +1,5 @@
 package kz.seisen.blog.services;
 
-import kz.seisen.blog.dto.PostCreateDto;
-import kz.seisen.blog.dto.PostDto;
 import kz.seisen.blog.dto.UserCreateDto;
 import kz.seisen.blog.dto.UserDto;
 

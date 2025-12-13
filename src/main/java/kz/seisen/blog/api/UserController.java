@@ -1,9 +1,6 @@
 package kz.seisen.blog.api;
 
-
-import kz.seisen.blog.dto.PostCreateDto;
 import kz.seisen.blog.dto.UserCreateDto;
-import kz.seisen.blog.services.PostService;
 import kz.seisen.blog.services.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
