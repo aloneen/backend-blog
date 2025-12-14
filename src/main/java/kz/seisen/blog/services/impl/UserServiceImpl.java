@@ -8,7 +8,6 @@ import kz.seisen.blog.models.User;
 import kz.seisen.blog.repositories.PermissionRepository;
 import kz.seisen.blog.repositories.UserRepository;
 import kz.seisen.blog.services.UserService;
-import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -45,6 +44,11 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public UserDto getByEmail(String email) {
+        return userMapper.toDto(userRepository.findByEmail(email));
+    }
+
+    @Override
     public UserDto create(UserCreateDto userCreateDto) {
         if (Objects.isNull(userCreateDto)) return null;
         User responseUser = new User();
@@ -76,7 +80,10 @@ public class UserServiceImpl implements UserService {
 
         old.setUsername(userCreateDto.getUsername());
         old.setEmail(userCreateDto.getEmail());
-        old.setPassword(userCreateDto.getPassword());
+
+        if (userCreateDto.getPassword() != null && !userCreateDto.getPassword().isEmpty()) {
+            old.setPassword(passwordEncoder.encode(userCreateDto.getPassword()));
+        }
 
         return userMapper.toDto(userRepository.save(old));
     }

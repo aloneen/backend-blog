@@ -5,6 +5,7 @@ import kz.seisen.blog.services.CategoryService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -35,6 +36,7 @@ public class CategoryController {
     }
 
     @PostMapping
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     public ResponseEntity<?> create(@RequestBody CategoryDto dto) {
         try {
             return new ResponseEntity<>(service.create(dto), HttpStatus.OK);
@@ -44,6 +46,7 @@ public class CategoryController {
     }
 
     @PutMapping("/{id}")
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     public ResponseEntity<?> update(@PathVariable Long id, @RequestBody CategoryDto dto) {
         try {
             return new ResponseEntity<>(service.update(id, dto), HttpStatus.OK);
@@ -53,6 +56,7 @@ public class CategoryController {
     }
 
     @DeleteMapping("/{id}")
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     public ResponseEntity<?> delete(@PathVariable Long id) {
         try {
             return new ResponseEntity<>(service.delete(id), HttpStatus.OK);

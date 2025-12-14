@@ -10,7 +10,7 @@ import java.util.List;
 @Mapper(componentModel = "spring", uses = {CommentMapper.class, LikeMapper.class, CategoryMapper.class})
 public interface PostMapper {
     @Mapping(source = "user.id", target = "userId")
-    @Mapping(source = "user.username", target = "username")
+    @Mapping(source = "user.actualUsername", target = "username")
     PostDto toDto(Post post);
 
     List<PostDto> toDtoList(List<Post> entities);
