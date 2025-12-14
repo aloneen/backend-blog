@@ -1,3 +1,8 @@
+
+drop table if exists users_permissions cascade;
+drop table if exists permissions cascade;
+
+
 create table permissions (
     id bigserial primary key,
     name varchar not null
