@@ -1,39 +1,41 @@
 package kz.seisen.blog.services;
 
 
-import kz.seisen.blog.dto.CommentDto;
+import kz.seisen.blog.dto.PostCreateDto;
+import kz.seisen.blog.dto.PostDto;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
 @SpringBootTest
 @Transactional
-public class CommentServiceTest {
+public class PostServiceTest {
 
     @Autowired
-    private CommentService service;
+    private PostService service;
 
 
     @Test
     void getAllTest() {
 
-        List<CommentDto> dtos = service.getAll();
+        List<PostDto> dtos = service.getAll();
 
 
         Assertions.assertNotNull(dtos);
         Assertions.assertNotEquals(0, dtos.size());
 
-        for (CommentDto dto : dtos) {
+        for (PostDto dto : dtos) {
             Assertions.assertNotNull(dto.getId());
+            Assertions.assertNotNull(dto.getTitle());
             Assertions.assertNotNull(dto.getText());
             Assertions.assertNotNull(dto.getUserId());
             Assertions.assertNotNull(dto.getUsername());
-            Assertions.assertNotNull(dto.getPostId());
         }
 
     }
@@ -46,14 +48,14 @@ public class CommentServiceTest {
         Long someIndex = service.getAll().get(randomIndex).getId();
 
 
-        CommentDto dto = service.getById(someIndex);
+        PostDto dto = service.getById(someIndex);
 
         Assertions.assertNotNull(dto);
         Assertions.assertNotNull(dto.getId());
+        Assertions.assertNotNull(dto.getTitle());
         Assertions.assertNotNull(dto.getText());
         Assertions.assertNotNull(dto.getUserId());
         Assertions.assertNotNull(dto.getUsername());
-        Assertions.assertNotNull(dto.getPostId());
 
 
 
@@ -66,37 +68,39 @@ public class CommentServiceTest {
         int before = service.getAll().size();
 
 
-        CommentDto commentDto = new CommentDto();
-        commentDto.setText("Test Comment Text");
-        commentDto.setUserId(1L);
-        commentDto.setPostId(1L);
+        List<PostDto> existingPosts = service.getAll();
+        Long validUserId = existingPosts.get(0).getUserId();
+        Assertions.assertNotNull(validUserId);
 
-        CommentDto saved = service.create(commentDto);
+        PostCreateDto postCreateDto = new PostCreateDto();
+        postCreateDto.setTitle("Test Post Title");
+        postCreateDto.setText("Test Post Text");
+        postCreateDto.setUserId(validUserId);
+        postCreateDto.setCategoryIds(new ArrayList<>());
+
+        PostDto saved = service.create(postCreateDto);
 
 
 
         Assertions.assertNotNull(saved);
         Assertions.assertNotNull(saved.getId());
+        Assertions.assertNotNull(saved.getTitle());
         Assertions.assertNotNull(saved.getText());
-        Assertions.assertNotNull(saved.getUserId());
-        Assertions.assertNotNull(saved.getPostId());
 
 
 
-        CommentDto savedTest = service.getById(saved.getId());
+        PostDto savedTest = service.getById(saved.getId());
 
         Assertions.assertNotNull(savedTest);
         Assertions.assertNotNull(savedTest.getId());
+        Assertions.assertNotNull(savedTest.getTitle());
         Assertions.assertNotNull(savedTest.getText());
-        Assertions.assertNotNull(savedTest.getUserId());
-        Assertions.assertNotNull(savedTest.getPostId());
 
 
 
         Assertions.assertEquals(saved.getId(), savedTest.getId());
+        Assertions.assertEquals(saved.getTitle(), savedTest.getTitle());
         Assertions.assertEquals(saved.getText(), savedTest.getText());
-        Assertions.assertEquals(saved.getUserId(), savedTest.getUserId());
-        Assertions.assertEquals(saved.getPostId(), savedTest.getPostId());
 
 
         int after = service.getAll().size();
@@ -114,26 +118,36 @@ public class CommentServiceTest {
         Long someIndex = service.getAll().get(randomIndex).getId();
 
 
+        List<PostDto> existingPosts = service.getAll();
+        Long validUserId = existingPosts.get(0).getUserId();
+        Assertions.assertNotNull(validUserId);
 
-        CommentDto newComment = new CommentDto(someIndex, "Updated Test Comment", 1L, "testuser", 1L);
+        PostCreateDto newPost = new PostCreateDto();
+        newPost.setTitle("Updated Test Title");
+        newPost.setText("Updated Test Text");
+        newPost.setUserId(validUserId);
+        newPost.setCategoryIds(new ArrayList<>());
 
-        CommentDto updated = service.update(someIndex, newComment);
+        PostDto updated = service.update(someIndex, newPost);
 
         Assertions.assertNotNull(updated);
         Assertions.assertNotNull(updated.getId());
+        Assertions.assertNotNull(updated.getTitle());
         Assertions.assertNotNull(updated.getText());
 
 
 
-        CommentDto updateTest = service.getById(someIndex);
+        PostDto updateTest = service.getById(someIndex);
 
         Assertions.assertNotNull(updateTest);
         Assertions.assertNotNull(updateTest.getId());
+        Assertions.assertNotNull(updateTest.getTitle());
         Assertions.assertNotNull(updateTest.getText());
 
 
 
         Assertions.assertEquals(updated.getId(), updateTest.getId());
+        Assertions.assertEquals(updated.getTitle(), updateTest.getTitle());
         Assertions.assertEquals(updated.getText(), updateTest.getText());
 
 
@@ -151,7 +165,7 @@ public class CommentServiceTest {
         boolean deleted = service.delete(someIndex);
         Assertions.assertTrue(deleted);
 
-        CommentDto deletedTest = service.getById(someIndex);
+        PostDto deletedTest = service.getById(someIndex);
         Assertions.assertNull(deletedTest);
 
 
@@ -161,5 +175,4 @@ public class CommentServiceTest {
 
 
     }
-
 }

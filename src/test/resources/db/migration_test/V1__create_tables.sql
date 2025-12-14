@@ -1,4 +1,14 @@
 
+drop table if exists post_categories cascade;
+drop table if exists likes cascade;
+drop table if exists comments cascade;
+drop table if exists posts cascade;
+drop table if exists users_permissions cascade;
+drop table if exists permissions cascade;
+drop table if exists categories cascade;
+drop table if exists users cascade;
+
+
 create table users (
     id bigserial primary key,
     username varchar(255) not null,
