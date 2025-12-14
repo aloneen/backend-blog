@@ -10,6 +10,7 @@ public interface UserService extends UserDetailsService {
 
     List<UserDto> getAll();
     UserDto getById(Long id);
+    UserDto getByEmail(String email);
     UserDto create(UserCreateDto userCreateDto);
     UserDto update(Long id, UserCreateDto userCreateDto);
     boolean delete(Long id);
