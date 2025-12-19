@@ -4,6 +4,7 @@ package kz.seisen.blog.config;
 import kz.seisen.blog.services.impl.UserServiceImpl;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
@@ -53,11 +54,12 @@ public class SecurityConfig {
                 .passwordEncoder(passwordEncoder());
 
         http.authorizeHttpRequests(authorizeHttpRequests -> authorizeHttpRequests
-                .requestMatchers("/auth/**").permitAll()
-                .requestMatchers("/posts/**").permitAll()
-                .requestMatchers("/comments/**").permitAll()
-                .requestMatchers("/likes/**").permitAll()
-                .requestMatchers("/categories/**").permitAll()
+                .requestMatchers(HttpMethod.GET, "/auth/**").permitAll()
+                .requestMatchers(HttpMethod.POST,"/auth/register").permitAll()
+                .requestMatchers(HttpMethod.GET, "/posts/**").permitAll()
+                .requestMatchers(HttpMethod.GET, "/comments/**").permitAll()
+                .requestMatchers(HttpMethod.GET, "/likes/**").permitAll()
+                .requestMatchers(HttpMethod.GET, "/categories/**").permitAll()
                 .anyRequest().authenticated()
         );
         http.cors(Customizer.withDefaults());
