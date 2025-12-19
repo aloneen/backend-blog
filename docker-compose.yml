@@ -1,6 +1,6 @@
 services:
   blog-backend:
-    build: .
+    image: 'whichisyou/blog-iso'
     container_name: 'blog-backend'
     depends_on:
       - database-service
